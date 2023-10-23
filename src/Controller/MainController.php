@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Classe\Movie;
+use App\Model\Movie;
 
 class MainController extends AbstractController
 {
@@ -15,8 +15,8 @@ class MainController extends AbstractController
      */
     public function home()
     {
-        $movies = new Movie();
-        $movies = $movies->getAll();
+        $movies = movie::getMovies();
+        dump($movies);
 
         // On retourne la vue twig avec le fichier home.html.twig
         return $this->render('main/home.html.twig', [

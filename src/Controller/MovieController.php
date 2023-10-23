@@ -4,21 +4,21 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Classe\Movie;
+use App\Model\Movie;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
-  * @Route("/movies")
+  * @Route("/movie")
 */
 class MovieController extends AbstractController
 {
     /**
+     * Page films et série
      * @Route("/list", name="movies_list")
      */
-    public function allMovie() 
+    public function list() 
     {
-        $movies = new Movie();
-        $movies = $movies->getAll();
+        $movies = Movie::getMovies();
 
         return $this->render('movie/list-movie.html.twig', [
             'movies' => $movies
@@ -26,24 +26,46 @@ class MovieController extends AbstractController
     }
 
     /**
-     * @Route("/show/{releaseDate}", name="movies_show")
+     * exemple page de détail d'un film avec ID
+     * @Route("/show/{id}", name="movies_show", methods={"GET"})
      */
-    public function show(int $releaseDate): Response
+    public function show($id)
     {
+        $movie = Movie::getMovieById($id);
+        if ($movie === null) {
+        throw $this->createNotFoundException('Aucun film ou série trouvé(e)');
+        }
 
-        $movies = new Movie();
-
-       $movie = $movies->getMovieByReleaseDate($releaseDate);
-
-       if ($movie === null) {
-          throw $this->createNotFoundException('Aucun film trouvé');
-       }
-
-            return $this->render('movie/show.html.twig', [
-                'movie' => $movie
-            ]);
+        return $this->render('movie/show.html.twig', [
+            'movie' => $movie
+        ]);
     }
 
+    /**
+     * Page d'un film ou d'une série en particulier
+     * @Route("/show/{releaseDate}", name="movies_show")
+   */
+  //  public function show(int $releaseDate): Response
+//    {
 
+ //       $movie = Movie::getMovieByReleaseDate($releaseDate);
+
+ //      if ($movie === null) {
+  //        throw $this->createNotFoundException('Aucun film trouvé');
+  //     }
+
+  //          return $this->render('movie/show.html.twig', [
+  //              'movie' => $movie
+   //         ]);
+  //  }
+
+    /**
+     * Page des films et séries favoris
+     * @Route("/favorites", name="movies-favorites")
+     */
+    public function favorites()
+    {
+        return $this->render('movie/favorites.html.twig');
+    }
 
 }

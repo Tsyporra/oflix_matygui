@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Classe;
+namespace App\Model;
 
 class Movie 
 {
-    private const SHOWS = [
+    private static $movies = [
         [
             'type' => 'Film',
             'title' => 'A Bug\'s Life',
@@ -48,26 +48,43 @@ class Movie
     
     ];
 
-    public function getAll ()
+    public static function getMovies()
+    {
+        return self::$movies;
+    }
+
+   /* public function getAll ()
     {
         return self::SHOWS;
     }
 
-   /* public function __toString()
+   public function __toString()
     {
         return self::SHOWS[0]['type'].'<br>'.self::SHOWS[0]['title'].'<br>'.self::SHOWS[0]['duration'].'<br>'.self::SHOWS[0]['summary'].'<br>'.self::SHOWS[0]['rating'];
 
     }
     */
 
-    public function getMovieByReleaseDate(int $releaseDate): ?array
+    public static function getMovieByReleaseDate(int $releaseDate): ?array
     {
-        foreach(self::SHOWS as $movie) {
+        foreach(self::$movies as $movie) {
             if ($releaseDate === $movie['release_date']) {
                 return $movie;
             }
         }
 
         return null;
+    }
+
+    /**
+     *@param [int] $id
+     *@return self
+     */
+    public static function getMovieById($id)
+    {
+        if(!isset(self::$movies[$id])) {
+            return null;
+        }
+        return self::$movies[$id];
     }
 }
