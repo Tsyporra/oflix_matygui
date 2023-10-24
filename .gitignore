@@ -8,4 +8,5 @@
 /var/
 /vendor/
 /oflix_integration/
+/docs/
 ###< symfony/framework-bundle ###
