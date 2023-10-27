@@ -21,10 +21,9 @@
                         <h3 class="mb-1">{{movie.title}}</h3>
                         <div class="mb-1 text-muted">{{movie.duration}} min</div>
                         <p>
-                            <span class="badge bg-warning text-dark">Animation</span>
-                            <span class="badge bg-warning text-dark">Aventure</span>
-                            <span class="badge bg-warning text-dark">Comédie</span>
-                            <span class="badge bg-warning text-dark">Famille</span>
+                            {% for genre in movie.getGenres %}
+                                <span class="badge bg-warning text-dark">{{genre.name}}</span>
+                            {% endfor %}
                         </p>
                         <p>
                             {{movie.synopsis}}
