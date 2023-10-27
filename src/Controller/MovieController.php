@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Model\Movie;
+use App\Repository\MovieRepository;
 
 /**
   * @Route("/movie")
@@ -28,9 +29,9 @@ class MovieController extends AbstractController
      * exemple page de détail d'un film avec ID
      * @Route("/show/{id}", name="movies_show", methods={"GET"})
      */
-    public function show($id)
+    public function show($id, MovieRepository $movieRepository)
     {
-        $movie = Movie::getMovieById($id);
+        $movie = $movieRepository->find($id);
         if ($movie === null) {
         throw $this->createNotFoundException('Aucun film ou série trouvé(e)');
         }

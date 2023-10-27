@@ -31,7 +31,7 @@
             <div class="col-12 col-lg-9">
 
                 <h2 class="text-muted fw-bold mb-4">Les films et séries/Résultats de recherche</h2>
-                {% for index, movie in movies %}
+                {% for id, movie in movies %}
                     <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm bg-white position-relative">
                         <div class="col-4 movie__poster" style="background-image: url({{movie.poster}});">
                              <img src="{{ asset('assets/images/poster-placeholder.png')}}" class="img-fluid">
@@ -52,7 +52,7 @@
                                 <i class="bi bi-star-half"></i>
                                 <span class="ps-1">{{movie.rating}}</span>
                             </div>
-                            <a href="{{ path('movies_show', {'id' : index })}}" class="fs-1 mt-3 text-danger align-self-start">
+                            <a href="{{ path('movies_show', {'id' : movie.id })}}" class="fs-1 mt-3 text-danger align-self-start">
                                 <i class="bi bi-arrow-right-square"></i>
                             </a>
                         </div>
