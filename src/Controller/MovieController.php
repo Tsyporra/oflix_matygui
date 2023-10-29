@@ -31,6 +31,7 @@ class MovieController extends AbstractController
     public function show($id, MovieRepository $movieRepository)
     {
         $movie = $movieRepository->find($id);
+        dump($movie->getCastings());
         if ($movie === null) {
             throw $this->createNotFoundException('Aucun film ou série trouvé(e)');
         }
