@@ -19,9 +19,11 @@ class MovieController extends AbstractController
     public function list(MovieRepository $movieRepository) 
     {
         $movies = $movieRepository->findAll();
+        $movieTitleSearch = $movieRepository->findAllOrderByAscDqlSearch('nemo');
 
         return $this->render('movie/list-movie.html.twig', [
-            'movies' => $movies
+            'movies' => $movies,
+            'movieTitleSearch' => $movieTitleSearch
         ]);
     }
 
@@ -33,6 +35,7 @@ class MovieController extends AbstractController
     {
         $movie = $movieRepository->find($id);
         $movieId = $movie->getId();
+
         $castings = $castingRepository->findAllCastingByMovie($movieId);
         if ($movie === null || $castings == null) {
             throw $this->createNotFoundException('Aucun film ou série trouvé(e)');

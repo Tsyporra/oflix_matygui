@@ -59,6 +59,34 @@ class MovieRepository extends ServiceEntityRepository
          return $movies;
     }
 
+     // Modification de la première méthode pour ajouter la recherche d'un film sur tout ou partie de son titre. Le mot-clé de recherche sera un paramètre optionnel de la méthode.
+     public function findAllOrderByAscDqlSearch($title = null)
+     {
+         $em = $this->getEntityManager();
+     
+         // Construction de la requête DQL de base
+         $dql = 'SELECT m FROM App\Entity\Movie m ORDER BY m.title ASC';
+     
+         // Si un mot-clé de recherche est indiqué, ajouter un mot clef WHERE pour filtrer les résultats.
+         if ($title !== null) {
+             $dql .= ' WHERE m.title LIKE :title';
+         }
+     
+         // Ajoutez l'ordre de tri
+         $dql .= ' ORDER BY m.title ASC';
+     
+         $query = $em->createQuery($dql);
+     
+         // Si un mot-clé de recherche est indqué, lier le paramètre à la requête.
+         if ($title !== null) {
+             $query->setParameter('searchKeyword', '%' . $title . '%');
+         }
+     
+         $movies = $query->getResult();
+     
+         return $movies;
+     }
+
     // Même requête avec le QUERYBUILDER
     public function findAllOrderByAscQB()
     {
