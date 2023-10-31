@@ -39,6 +39,21 @@ class CastingRepository extends ServiceEntityRepository
         }
     }
 
+        // méthode permettant de récupérer tous les castings d'un film donné
+    public function findAllCastingByMovie($movieId)
+    {
+        $em = $this->GetEntityManager();
+        $queryBuilder = $em->createQueryBuilder();
+
+        $query = $queryBuilder->select('c')
+                              ->from(Casting::class, 'c')
+                              ->where('c.movie = :movie_id')
+                              ->setParameter('movie_id', $movieId);
+        $query = $query->getQuery();
+        $CastingByMovieId = $query->getResult();
+        return $CastingByMovieId;
+    }
+
 //    /**
 //     * @return Casting[] Returns an array of Casting objects
 //     */

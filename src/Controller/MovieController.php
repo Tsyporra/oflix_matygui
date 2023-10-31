@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\MovieRepository;
+use App\Repository\CastingRepository;
 
 /**
   * @Route("/movie")
@@ -28,16 +29,18 @@ class MovieController extends AbstractController
      * exemple page de détail d'un film avec ID
      * @Route("/show/{id}", name="movies_show")
      */
-    public function show($id, MovieRepository $movieRepository)
+    public function show($id, MovieRepository $movieRepository, CastingRepository $castingRepository)
     {
         $movie = $movieRepository->find($id);
-        dump($movie->getCastings());
-        if ($movie === null) {
+        $movieId = $movie->getId();
+        $castings = $castingRepository->findAllCastingByMovie($movieId);
+        if ($movie === null || $castings == null) {
             throw $this->createNotFoundException('Aucun film ou série trouvé(e)');
         }
 
         return $this->render('movie/show.html.twig', [
-            'movie' => $movie
+            'movie' => $movie,
+            'castings' => $castings
         ]);
     }
    
