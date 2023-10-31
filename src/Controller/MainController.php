@@ -15,11 +15,15 @@ class MainController extends AbstractController
      */
     public function home(MovieRepository $movieRepository)
     {
-        $movies = $movieRepository->findAll();
+        $movies = $movieRepository->findAllOrderByAscQB();
 
         // On retourne la vue twig avec le fichier home.html.twig
         return $this->render('main/home.html.twig', [
             'movies' => $movies,
         ]);
     }
+
+    // DQL Doctrine Query Language
+
+
 }

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Movie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,6 +38,56 @@ class MovieRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findAllOrderByAscDql()
+    {
+        // Besoin du manager pour créer nos requêtes avec Doctrine
+        // On utilise l'EntityManager à chaque fois qu'on veut manipuler les données avec Doctrine
+       $em = $this->getEntityManager();
+;      $query = $em->createQuery(
+        // Construction de la reqête DQL => SELECT tous les objets movie depuis l'entité Movie
+        // C'est au moment de 'AS m' qu'on définit le m 
+        // Ordonnés par titre (title) par ordre alphabétique
+        // SELECT m => sélectionne tous les objets Movie (autre manière pour récupérer juste une propriété => SELECT m.title) 
+        'SELECT m 
+         FROM App\entity\Movie 
+         AS m 
+         ORDER BY m.title ASC');
+         // Ici on va exécuter la requête pour récupérer les données attendues
+         $movies = $query->getResult();
+         return $movies;
+    }
+
+    // Même requête avec le QUERYBUILDER
+    public function findAllOrderByAscQB()
+    {
+        $em = $this->getEntityManager();
+
+        $qb = $em->createQueryBuilder();
+
+        $query = $qb->select('m')
+                    ->from(Movie::class, 'm')
+                    ->orderBy('m.release_date', 'DESC');
+
+        $query = $query->getQuery();                
+        $movies = $query->getResult();
+
+        return $movies;
+    }
+
+    // récupérer les Movie par date de sortie récente
+    public function findAllOrderByReleaseDateDql()
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery(
+        'SELECT m 
+         FROM App\entity\Movie 
+         AS m 
+         ORDER BY m.release_date DESC');
+
+         $moviesByRealiseDate = $query->getResult();
+         return $moviesByRealiseDate;
     }
 
 //    /**
