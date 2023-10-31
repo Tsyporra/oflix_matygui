@@ -21,7 +21,7 @@
                         <h3 class="mb-1">{{movie.title}}</h3>
                         <div class="mb-1 text-muted">{{movie.duration}} min</div>
                         <p>
-                            {% for genre in movie.getGenres %}
+                            {% for genre in movie.genres %}
                                 <span class="badge bg-warning text-dark">{{genre.name}}</span>
                             {% endfor %}
                         </p>
@@ -37,20 +37,19 @@
                             <span class="ps-1">4.8</span>
                         </div>
                         {% if movie.type == 'Série' %}
-                        <h2>3 Saisons</h2>
-                        <ul class="list-unstyled">
-                            <li><span class="badge bg-danger fs-6 mb-2">Saison 1</span><small class="ms-1">(10 épisodes)</small></li>
-                            <li><span class="badge bg-danger fs-6 mb-2">Saison 2</span><small class="ms-1">(11 épisodes)</small></li>
-                            <li><span class="badge bg-danger fs-6 mb-2">Saison 3</span><small class="ms-1">(12 épisodes)</small></li>
-                        </ul>
+                            <h2>{{movie.seasons|length}} Saisons</h2>
+                            <ul class="list-unstyled">
+                                {% for season in movie.seasons %}
+                                    <li><span class="badge bg-danger fs-6 mb-2">Saison {{season.number}} </span><small class="ms-1">({{season.episodesNumber}} épisodes)</small></li>
+                                {% endfor %}
+                            </ul>
                         {% endif %}
-
                         <dl class="row">
                         {% if movie.castings is not empty %}
                             <dt class="col-sm-12">Avec</dt>
                             <dd class="col-sm-12">
                                 {% for casting in movie.castings|sort((a, b) => a.creditOrder <=> b.creditOrder) %}
-                                    {{ casting.getPerson.firstname }} {{casting.getPerson.lastname}} (<b>{{ casting.getrole }}</b>)<br>
+                                    {{ casting.person.firstname }} {{casting.person.lastname}} (<b>{{ casting.role }}</b>)<br>
                                 {% endfor %}
                             </dd>
                         {% endif %}
