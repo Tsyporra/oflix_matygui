@@ -37,7 +37,7 @@ class MovieController extends AbstractController
 
         $castings = $castingRepository->findAllCastingByMovie($movie);
         dump($castings);
-        if ($movie === null || $castings == null) {
+        if ($movie === null) {
             throw $this->createNotFoundException('Aucun film ou série trouvé(e)');
         }
 

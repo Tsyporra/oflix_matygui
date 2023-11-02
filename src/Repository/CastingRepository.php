@@ -2,10 +2,11 @@
 
 namespace App\Repository;
 
-use App\Entity\Casting;
 use App\Entity\Movie;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Entity\Casting;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Casting>
@@ -43,17 +44,17 @@ class CastingRepository extends ServiceEntityRepository
     // méthode permettant de récupérer tous les castings d'un film donné
     public function findAllCastingByMovie(Movie $movie)
     {
-        $em = $this->GetEntityManager();
-        $queryBuilder = $em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
 
-        $query = $queryBuilder->select('c', 'p')
-                              ->from(Casting::class, 'c')
-                              ->join('c.person', 'p')
-                              ->where('c.movie = :movie')
-                              ->setParameter('movie', $movie);
-        $query = $query->getQuery();
-        $CastingByMovieId = $query->getResult();
-        return $CastingByMovieId;
+        $castingByMovie = $qb
+            ->select('c', 'p')
+            ->from(Casting::class, 'c')
+            ->join('c.person', 'p')
+            ->where($qb->expr()->eq('c.movie', ':movie'))
+            ->setParameter('movie', $movie)
+            ->getQuery()
+            ->getResult();
+        return $castingByMovie;
     }
 //    /**
 //     * @return Casting[] Returns an array of Casting objects
