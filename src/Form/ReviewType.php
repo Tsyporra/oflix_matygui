@@ -14,7 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+
 
 class ReviewType extends AbstractType
 {
@@ -70,7 +70,7 @@ class ReviewType extends AbstractType
                 'expanded' => true,
 
             ])
-            ->add('watchedAt', DateTime::class, [
+            ->add('watchedAt', DateTimeType::class, [
                 'label' => 'Vous avez vu ce film le: ',
                 'required' => false,
                 'input' => 'datetime_immutable',
