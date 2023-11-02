@@ -2,20 +2,28 @@
 
 namespace App\DataFixtures;
 
-use App\DataFixtures\Provider\OflixProvider;
 use DateTime;
+use Faker\Factory;
 use App\Entity\Genre;
 use App\Entity\Movie;
 use App\Entity\Season;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use App\DataFixtures\Provider\OflixProvider;
+use App\Entity\Person;
 
 class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        // instancier la classe oflixprovider (fournisseur);
+        // $product = new Product();
+        // $manager->persist($product);
+
+        // On instancie notre provider (fournisseur de données)
         $oflixProvider = new OflixProvider();
+
+        // On créer une instance de faker Generator
+        $faker = Factory::create();
 
         // On va créer 20 genres
         $genreList = []; // Pour l'instant on init le tableau
@@ -29,6 +37,17 @@ class AppFixtures extends Fixture
             $manager->persist($genre);
         }
 
+        // On créer 20 acteurs
+        for ($p = 0;$p < 20; $p++) {
+            $person = new Person();
+            // A l'aide de faker je vais generer un firstname et lastname fake
+            $person->setFirstname($faker->firstName());
+            $person->setLastname($faker->lastName());
+            $personList[] = $person;
+            // On persiste
+            $manager->persist($person);
+        }
+
         // On créer 20 films/serie
 
         for ($m = 0; $m < 20; $m++) {
@@ -40,7 +59,7 @@ class AppFixtures extends Fixture
             $movie->setType($type);
             $movie->setReleaseDate(new DateTime('2018-05-12'));
             $movie->setDuration(90);
-            $movie->setPoster('https://m.media-amazon.com/images/M/MV5BN2ZmYjg1YmItNWQ4OC00YWM0LWE0ZDktYThjOTZiZjhhN2Q2XkEyXkFqcGdeQXVyNjgxNTQ3Mjk@._V1_SX300.jpg');
+            $movie->setPoster($faker->imageUrl(300, 450, $movie->getTitle(), false));
             $movie->setRating(4.4);
             $movie->setSummary('1983, à Hawkins dans l\'Indiana. Après la disparition d\'un garçon de 12 ans dans des circonstances mystérieuses, la petite ville du Midwest est témoin d\'étranges phénomènes.');
             $movie->setSynopsis('A Hawkins, en 1983 dans l\'Indiana. Lorsque Will Byers disparaît de son domicile, ses amis se lancent dans une recherche semée d’embûches pour le retrouver. Dans leur quête de réponses, les garçons rencontrent une étrange jeune fille en fuite. Les garçons se lient d\'amitié avec la demoiselle tatouée du chiffre "11" sur son poignet et au crâne rasé et découvrent petit à petit les détails sur son inquiétante situation. Elle est peut-être la clé de tous les mystères qui se cachent dans cette petite ville en apparence tranquille…');
