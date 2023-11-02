@@ -20,10 +20,14 @@ class AppFixtures extends Fixture
         // $manager->persist($product);
 
         // On instancie notre provider (fournisseur de données)
-        $oflixProvider = new OflixProvider();
+        //$oflixProvider = new OflixProvider();
 
         // On créer une instance de faker Generator
         $faker = Factory::create();
+
+        // On va donner notre provider OflixProvider a Faker
+        $faker->addProvider(new OflixProvider());
+
 
         // On va créer 20 genres
         $genreList = []; // Pour l'instant on init le tableau
@@ -32,7 +36,7 @@ class AppFixtures extends Fixture
             // A chaque tour de boucle, on créer une entité Genre
             $genre = new Genre();
             // On va la parametrer 
-            $genre->setName($oflixProvider->genreRand()); // setName dans l'entité Genre est le setter qui permet de lui donner un nom
+            $genre->setName($faker->unique->genreRand()); // setName dans l'entité Genre est le setter qui permet de lui donner un nom
             $genreList[] = $genre;
             $manager->persist($genre);
         }
@@ -53,7 +57,7 @@ class AppFixtures extends Fixture
         for ($m = 0; $m < 20; $m++) {
             $movie = new Movie();
             // On va parametrer $movie
-            $movie->setTitle($oflixProvider->movieRand());
+            $movie->setTitle($faker->unique->movieRand());
             // mt_rand prend 2 nombre en paramtre
             $type = mt_rand(0, 1) === 1 ? 'Film' : 'Série'; // Si mt_rand(0, 1) === 1 alors le $type = 'Film' sinon sera egal a 'Serie'
             $movie->setType($type);

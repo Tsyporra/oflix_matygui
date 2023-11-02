@@ -442,17 +442,18 @@ class OflixProvider
         'Western',
     ];
 
-    // return un film au hasard
+    /**
+     * Retourne un film au hasard
+     */
     public function movieRand()
     {
-        // Retourne un film au hasard de $movies ou l'index est égal à un nb au hasard
-        return $this->movies[mt_rand(0, 299)];
+        // Retourne un film au hasard dans $movies ou l'index est egal a un nb random entre 0 et 299
+        return $this->movies[mt_rand(0,299)];
     }
 
-    // return un film au hasard
     public function genreRand()
     {
-        // Retourne un genre au hasard de $genres ou l'index est égal à un nb au hasard
-        return $this->genres[mt_rand(0, 79)];
+        // Retourne un genre au hasard dans $genres ou l'index est egal a un nb random entre 0 et 79
+        return $this->genres[mt_rand(0,76)];
     }
 }
