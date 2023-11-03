@@ -48,9 +48,10 @@ class Review
     private $watchedAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Movie::class)
+     * @ORM\ManyToOne(targetEntity=Movie::class, inversedBy="reviews")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $movie;
+    private $movie; 
 
     public function getId(): ?int
     {

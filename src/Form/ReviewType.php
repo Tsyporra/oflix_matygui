@@ -12,7 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 
@@ -34,16 +34,23 @@ class ReviewType extends AbstractType
                 'label' => 'Email',
                 'attr' => ['placehorlder' => 'Votre email'],
                 'constraints' => [
-                    new NotBlank(),
-                    new Email(),
+                    new NotBlank([
+                        'message' => 'Le champ email ne peut pas être vide.',
+                    ]),
+                    new Email([
+                        'message' => 'Le champ email n\'est pas une adresse mail valide.',
+                    ]),
                 ],
             ])
             ->add('content', TextareaType::class, [
                 'label' => 'Critique',
                 'constraints' => [
-                    new NotBlank(),
+                    new NotBlank([
+                        'message' => 'Le champ critique ne peut pas être vide.',
+                    ]),
                     new Length([
                         'min' => 100,
+                        'minMessage' => 'Le texte est trop court. Il faut un minimun de 100 caractères.'
                     ]),
                 ]
             ])
@@ -70,9 +77,8 @@ class ReviewType extends AbstractType
                 'expanded' => true,
 
             ])
-            ->add('watchedAt', DateTimeType::class, [
+            ->add('watchedAt', DateType::class, [
                 'label' => 'Vous avez vu ce film le: ',
-                'required' => false,
                 'input' => 'datetime_immutable',
             ])
         ;

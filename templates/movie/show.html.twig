@@ -62,8 +62,19 @@
                     </div>
                 </div>
                 <div align="right" class="fa-sharp fa-solid fa-pencil">
-                    <a class="btn" href="{{ path('app_review_add', {'id' : movie.id })}}">Rédiger une critique</a>
+                    <a class="btn btn-sm btn-warning" href="{{ path('app_review_add', {'id' : movie.id })}}">Rédiger une critique</a>
                 </div>
+
+                <div>
+                    <h2>Critiques</h2>
+                    {% for review in movie %}
+                    <p>
+                        {{ review.content }}
+                        <small>{{ review.username }}</small>
+                    </p>
+                    {% endfor %}
+                </div>
+
             </div>
 
         </div>
