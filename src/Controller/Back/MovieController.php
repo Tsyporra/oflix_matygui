@@ -18,25 +18,27 @@ class MovieController extends AbstractController
     /**
      * READ
      * Affiche tous les films
+     * 
      * @Route("/", name="")
      */
-    public function index(MovieRepository $movieRepository): Response
+ /*   public function list(MovieRepository $movieRepository): Response
     {
         // Je stock dans $movies la liste de tous les films
         $movies = $movieRepository->findAll();
 
         // Je retourne ma vue en lui passant $movies
-        return $this->render('back/movie/index.html.twig', [
+        return $this->render('back/movie/list.html.twig', [
             'movies' => $movies,
         ]);
-    }
+    } */
 
      /**
      * CREATE
      * Créer un film
+     * 
      * @Route("/create", name="_create")
      */
-    public function create(Request $request, MovieRepository $movieRepository): Response
+  /*  public function create(Request $request, MovieRepository $movieRepository): Response
     {
         // On créer une instance de Movie car ici on veut créer un film
         $movie = new Movie();
@@ -60,5 +62,44 @@ class MovieController extends AbstractController
         return $this->render('back/movie/create.html.twig', [
             'form' => $form->createView(),
         ]);
+    } */
+
+
+    /**
+     * Met a jour un film
+     *
+     * @Route("/update/{id}", name="_update")
+     */
+ /*   public function update(Movie $movie, Request $request, MovieRepository $movieRepository)
+    {
+        dd($movie);
+        $form = $this->createForm(MovieType::class, $movie);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // On rentre dans le if SI le formulaire a été soumis
+            // C'est donc ici qu'on va envoyer les données de $form dans la bdd
+            // J'envoie $movie en bdd, true => pour faire le flush
+            $movieRepository->add($movie, true);
+
+            return $this->redirectToRoute("app_back_movie");
+        }
+
+        return $this->render('back/movie/edit.html.twig', [
+            'movie' => $movie,
+            'form' => $form->createView(),
+        ]);
     }
+
+        /**
+     * Supprime un film
+     *
+     * @Route("/delete/{id}", name="_delete")
+     */
+ /*   public function delete(Movie $movie, MovieRepository $movieRepository)
+    {
+        $movieRepository->remove($movie, true);
+        return $this->redirectToRoute("app_back_movie");
+    }  */
 }

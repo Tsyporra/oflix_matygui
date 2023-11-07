@@ -21,9 +21,8 @@
                 <a href="#">{{ movie.title }}</a>
               </td>
               <td>
-                <a href="#" class="btn btn-warning btn-sm">Editer</a>
-                <a href="" class="btn btn-danger btn-sm">Supprimer</a>
-                {# <a href="{{ path('app_movie_delete', {id: movie.id}) }}" class="btn btn-danger btn-sm">Supprimer</a> #}
+                <a href="{{ path('app_back_movie_update', {id:movie.id}) }}" class="btn btn-warning btn-sm">Editer</a>
+                <a href="{{ path('app_back_movie_delete', {id: movie.id}) }}" class="btn btn-danger btn-sm">Supprimer</a>
               </td>
             </tr>
           {% endfor %}
@@ -31,8 +30,7 @@
       </table>
        <div class="d-grid gap-2 col-2 mx-auto">
           <ul class="d-flex flex-column flex-wrap list-unstyled justify-content-center">
-            <a class="btn btn-success btn-sm" href="">Ajouter un nouveau film/série</a>
-            {# <a class="btn btn-success btn-sm" href="{{ path('app_movie_add2') }}">Ajouter un nouveau film/série</a> #}
+            <a class="btn btn-success btn-sm" href="{{ path('app_back_movie_create') }}">Ajouter un nouveau film/série</a>
           </ul>
         </div>
 </div>
